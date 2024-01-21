@@ -2,7 +2,7 @@
 using namespace std;
 
 bool isSafe(int board[][100], int i, int j, int n) {
-	// 1. Current row mei queen nhi honi chahiye
+	// 1. Current col mei queen nhi honi chahiye
 	for (int k = 0; k < i; ++k)
 	{
 		if (board[k][j] == 1) return false;
