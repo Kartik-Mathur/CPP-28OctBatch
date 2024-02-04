@@ -33,6 +33,18 @@ void insertAtEnd(node* &h, node* &t, int data) {
 	}
 }
 
+void insertAtFront(node* &head, node* &tail, int data) {
+	if (head == NULL) {
+		node* n = new node(data);
+		head = tail = n;
+	}
+	else {
+		node* n = new node(data);
+		n->next = head;
+		head = n;
+	}
+}
+
 int main() {
 
 	node* head = NULL, *tail = NULL;
@@ -42,6 +54,9 @@ int main() {
 	insertAtEnd(head, tail, 3);
 	insertAtEnd(head, tail, 4);
 	insertAtEnd(head, tail, 5);
+	insertAtFront(head, tail, 6);
+	insertAtFront(head, tail, 7);
+	insertAtFront(head, tail, 8);
 
 	printLL(head);
 
