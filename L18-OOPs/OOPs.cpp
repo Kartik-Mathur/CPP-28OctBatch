@@ -5,33 +5,38 @@ using namespace std;
 class Car {
 private:
 	int price;
+	const int tyres;
 
 public:
 	char* name;
 	int model;
 	int seats;
+	static int counter;
 
-	Car() {
+	Car() : tyres(4) {
 		name = NULL;
 		cout << "Inside Default Constructor\n";
+		counter++;
 	}
 
-	Car(char* n, int p, int m, int s) {
+	Car(char* n, int p, int m, int s) : tyres(4), price(p), model(m), seats(s) {
 		cout << "Inside Parameterised Constructor\n";
 		name = new char[strlen(n) + 1];
 		strcpy(name, n);
-		price = p;
-		model = m;
-		seats = s;
+		counter++;
+		// price = p;
+		// model = m;
+		// seats = s;
 	}
 
-	Car(Car &X) {
+	Car(Car &X): tyres(4) {
 		cout << "Inside Copy Constructor\n";
 		name = new char[strlen(X.name) + 1];
 		strcpy(name, X.name);
 		price = X.price;
 		model = X.model;
 		seats = X.seats;
+		counter++;
 	}
 
 
@@ -39,11 +44,13 @@ public:
 		cout << "Name   : " << name << endl;
 		cout << "Price  : " << price << endl;
 		cout << "Model  : " << model << endl;
+		cout << "Tyres  : " << tyres << endl;
 		cout << "Seats  : " << seats << endl << endl;
 	}
 
 	~Car() {
 		cout << "Deleting Object " << name << endl;
+		counter--;
 	}
 
 	void setName(char* n) {
@@ -84,6 +91,10 @@ public:
 };
 // ----------------------------- BLUEPRINT -----------------------------
 
+
+// Static variables ko class ke bahar aakar value deni padti hai
+int Car::counter = 0;
+
 int main() {
 
 	Car a;
@@ -108,6 +119,9 @@ int main() {
 	b.print();
 	c.print();
 	d.print();
+
+	// cout << a.counter << endl;
+	cout << Car::counter << endl;
 
 
 
