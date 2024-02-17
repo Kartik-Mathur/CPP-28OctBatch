@@ -1,29 +1,31 @@
 #include <iostream>
 using namespace std;
 
+template<typename U>
 class node {
 public:
-	int data;
-	node* next;
-	node(int d) {
+	U data;
+	node<U> * next;
+	node(U d) {
 		data  = d;
 		next = NULL;
 	}
 };
 
+template<typename T>
 class Stack {
-	node* head;
+	node<T> *head;
 public:
 	Stack() {
 		head = NULL;
 	}
 
-	void push(int d) {
+	void push(T d) {
 		if (head == NULL) {
-			head = new node(d);
+			head = new node<T>(d);
 		}
 		else {
-			node* n = new node(d);
+			node<T>* n = new node<T>(d);
 			n->next = head;
 			head = n;
 		}
@@ -36,13 +38,13 @@ public:
 			return;
 		}
 
-		node* temp = head;
+		node<T>* temp = head;
 		head = head->next;
 
 		delete temp;
 	}
 
-	int top() {
+	T top() {
 		return head->data;
 	}
 
@@ -53,11 +55,11 @@ public:
 
 int main() {
 
-	Stack s;
-	s.push(1);
-	s.push(2);
-	s.push(3);
-	s.push(4);
+	Stack<char> s;
+	s.push('A');
+	s.push('B');
+	s.push('C');
+	s.push('D');
 
 	while (!s.empty()) {
 		cout << s.top() << " ";

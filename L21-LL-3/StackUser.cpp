@@ -2,12 +2,13 @@
 #include <vector>
 using namespace std;
 
+template<typename T>
 class Stack {
 private:
-	vector<int> v;
+	vector<T> v;
 public:
 
-	void push(int d) {
+	void push(T d) {
 		v.push_back(d);
 	}
 
@@ -19,7 +20,7 @@ public:
 		return v.size() == 0;
 	}
 
-	int top() {
+	T top() {
 		return v[v.size() - 1];
 	}
 
@@ -28,11 +29,17 @@ public:
 int main() {
 
 
-	Stack s;
-	s.push(1);
-	s.push(2);
-	s.push(3);
-	s.push(4);
+	Stack<char> s;
+
+	s.push('A');
+	s.push('B');
+	s.push('C');
+	s.push('D');
+
+	// s.push(1);
+	// s.push(2);
+	// s.push(3);
+	// s.push(4);
 
 	while (!s.empty()) {
 		cout << s.top() << " ";
