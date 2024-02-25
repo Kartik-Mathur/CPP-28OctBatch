@@ -30,6 +30,25 @@ node* insertInBST(node* root, int d) {
 	return root;
 }
 
+void printRangeBST(node* root, int k1, int k2) {
+	if (!root) return;
+
+	if (root->data >= k1 and root->data <= k2) {
+		cout << root->data << " ";
+	}
+
+	if (root->data < k1) {
+		printRangeBST(root->right, k1, k2);
+	}
+	else if (root->data > k2) {
+		printRangeBST(root->left, k1, k2);
+	}
+	else {
+		printRangeBST(root->left, k1, k2);
+		printRangeBST(root->right, k1, k2);
+	}
+}
+
 node* createTree() {
 	int data;
 	cin >> data;
@@ -91,6 +110,108 @@ void levelOrderPrint(node* root) {
 	}
 }
 
+int height(node* root) {
+	if (!root) return 0;
+
+	return (max(height(root->left), height(root->right))) + 1;
+}
+
+bool isBalanced(node* root) {
+	// base case
+	if (!root) return true;
+
+	// recursive case
+	int left = height(root->left);
+	int right = height(root->right);
+
+	if (abs(left - right) <= 1 and
+	        isBalanced(root->left) and isBalanced(root->right)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+class Pair {
+public:
+	bool balanced;
+	int height;
+};
+Pair fastBalanced(node* root) {
+	// base case
+	if (!root) {
+		return {true, 0};
+	}
+	// recursive case
+	Pair p;
+	Pair left = fastBalanced(root->left);
+	Pair right = fastBalanced(root->right);
+
+	p.height = max(left.height, right.height) + 1;
+	if (abs(left.height - right.height) <= 1 and left.balanced and right.balanced) {
+		p.balanced = true;
+	}
+	else {
+		p.balanced = false;
+	}
+	return p;
+}
+
+class LinkedList {
+public:
+	node* head, *tail;
+};
+
+LinkedList BSTtoLL(node* root) {
+	// base case
+	if (!root) {
+		return {NULL, NULL};
+	}
+	// recursive case
+	LinkedList l;
+
+	if (root->left and root->right) {
+		LinkedList left =
+		    BSTtoLL(root->left);
+		LinkedList right =
+		    BSTtoLL(root->right);
+
+		left.tail->right = root;
+		root->right = right.head;
+
+		l.head = left.head;
+		l.tail = right.tail;
+		return l;
+	}
+	else if (root->left and !root->right) {
+		LinkedList left = BSTtoLL(root->left);
+		left.tail->right = root;
+		l.head = left.head;
+		l.tail = root;
+		return l;
+	}
+	else if (!root->left and root->right) {
+		LinkedList right = BSTtoLL(root->right);
+		root->right = right.head;
+		l.head = root;
+		l.tail = right.tail;
+		return l;
+	}
+	else {
+		l.head = l.tail = root;
+		return l;
+	}
+}
+
+void printLL(node* head) {
+	while (head) {
+		cout << head->data << "-->";
+		head = head->right;
+	}
+	cout << "NULL\n";
+}
+
 int main() {
 
 	node* root = createTree();
@@ -103,8 +224,30 @@ int main() {
 	cout << endl;
 
 	levelOrderPrint(root);
+	// cout << endl;
+	printRangeBST(root, 3, 10);
+	cout << endl;
+	if (isBalanced(root)) {
+		cout << "Balanced Hai\n";
+	}
+	else {
+		cout << "Balanced Nahi Hai\n";
+	}
+
+	Pair ans = fastBalanced(root);
+	cout << ans.height << endl;
+
+	if (ans.balanced) {
+		cout << "Balanced Hai\n";
+	}
+	else {
+		cout << "Balanced Nahi Hai\n";
+	}
 
 
+	LinkedList l = BSTtoLL(root);
+
+	printLL(l.head);
 	return 0;
 }
 
