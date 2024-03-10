@@ -92,9 +92,39 @@ public:
 			cout << "NULL\n";
 		}
 	}
+
+	node* search(string key) {
+		int hashIndex = hashFunction(key);
+		node* head = a[hashIndex];
+		while (head) {
+			if (head -> key == key) return head;
+
+			head = head->next;
+		}
+		return NULL;
+	}
+
+	int& operator[](string key) {
+		// Find update krna hai ya insert krna hai
+		node* x = search(key);
+		if (x == NULL) {
+			// insert krna padega
+			insert(key, -1);
+			x = search(key);
+			return x->value;
+
+		}
+		else {
+			// update krna padega
+			return x->value;
+		}
+
+	}
+
 };
 
 int main() {
+
 
 	hashmap h;
 	h.insert("Mango", 100);
@@ -102,7 +132,15 @@ int main() {
 	h.insert("guava", 50);
 	h.insert("kiwi", 40);
 
+
+	h["pineapple"] = 50; // insert, new node create hogi hashmap mei
+	cout << "Price: " << h["pineapple"] << endl; // 50 // print
+	h["pineapple"] = 120; // update, pehle wali update ho rhi hai
+	cout << "Price: " << h["pineapple"] << endl; // 120
+
 	h.print();
+
+
 
 
 	return 0;
