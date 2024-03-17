@@ -109,7 +109,8 @@ public:
 		node* x = search(key);
 		if (x == NULL) {
 			// insert krna padega
-			insert(key, -1);
+			int garbageVal;
+			insert(key, garbageVal);
 			x = search(key);
 			return x->value;
 
