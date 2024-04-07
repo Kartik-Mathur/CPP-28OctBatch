@@ -12,7 +12,7 @@ bool isValid(int i, int j, bool visited[][26]) {
 	return false;
 }
 
-int solve(int si, int sj, int di, int dj, bool visited[][26]) {
+int solve(int si, int sj, int di, int dj, int dp[][26]) {
 	// base case
 	if (si == di and sj == dj) {
 		return 0;
@@ -26,7 +26,7 @@ int solve(int si, int sj, int di, int dj, bool visited[][26]) {
 		int ni = si + x[k];
 		int nj = sj + y[k];
 		if (isValid(ni, nj, visited)) {
-			int chotiProb = solve(ni, nj, di, dj, visited);
+			int chotiProb = solve(ni, nj, di, dj, dp);
 			if (chotiProb != INT_MAX)
 				ans = min(ans, chotiProb + a[si][sj]);
 		}
@@ -38,8 +38,9 @@ int solve(int si, int sj, int di, int dj, bool visited[][26]) {
 
 int main() {
 
-	cin >> n >> m;
+	cin >> m >> n;
 	while (n and m) {
+
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < m; ++j)
